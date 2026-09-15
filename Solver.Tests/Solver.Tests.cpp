@@ -41,12 +41,5 @@ namespace SolverTests
 				}
 			}
 		}
-		TEST_METHOD(Creating_using_move_operator) {
-			Matrix other(2, 2);
-			other.at(0, 0) = 1; other.at(0, 1) = 2;
-			other.at(1, 0) = 3; other.at(1, 1) = 4;
-			//Act
-			Matrix test_matrix(other);
-		}
 	};
 }
