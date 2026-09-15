@@ -69,22 +69,22 @@ namespace miit::algebra {
 		* @brief функция получения количеств строк
 		* @return количество строк
 		*/
-		int get_rows();
+		int get_rows() const;
 		/**
 		* @brief функция получения количеств столбцов
 		* @return количество столбцов
 		*/
-		int get_columns();
+		int get_columns() const;
 		/**
 		* @brief функция получения элемента  матрицы
 		* @return элемент матрицы
 		*/
-		int get_element(const int i, const int j);
+		int get_element(const int i, const int j) const;
 		/**
 		* @brief функция получения ареса элемента матрицы
 		* @return адрес элемента матрицы
 		*/
-		int& at(const int i, const int j);
+		int& at(const int i, const int j) const;
 		/**
 		* @brief заполнение матрицы рандомными числами
 		*/

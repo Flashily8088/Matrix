@@ -74,23 +74,23 @@ namespace miit::algebra {
 		return *this;
 	}
 
-	int Matrix::get_rows()
+	int Matrix::get_rows() const
 	{
 		return rows;
 	}
 
-	int Matrix::get_columns()
+	int Matrix::get_columns() const
 	{
 		return columns;
 	}
 
 
-	int Matrix::get_element(int i, int j)
+	int Matrix::get_element(int i, int j) const
 	{
 		return matrix[i][j];
 	}
 
-	int& Matrix::at(const int i, const int j)
+	int& Matrix::at(const int i, const int j) const
 	{
 		return matrix[i][j];
 	}
