@@ -6,26 +6,26 @@ namespace miit::algebra {
 	{
 	protected:
 		/**
-		* @brief матрица
+		* @brief РјР°С‚СЂРёС†Р°
 		*/
 		Matrix* matrix;
 		/**
-		* @brief генератор
+		* @brief РіРµРЅРµСЂР°С‚РѕСЂ
 		*/
 		miit::algebra::Generator* generator;
 	public:
 		/**
-		* @brief конструкор
-		* @param m - матрица
-		* @param g - генератор
+		* @brief РєРѕРЅСЃС‚СЂСѓРєРѕСЂ
+		* @param m - РјР°С‚СЂРёС†Р°
+		* @param g - РіРµРЅРµСЂР°С‚РѕСЂ
 		*/
 		Exercise(Matrix* m, Generator* g) : matrix(m), generator(g) {};
 		/**
-		* @brief диструктор
+		* @brief РґРёСЃС‚СЂСѓРєС‚РѕСЂ
 		*/
 		virtual ~Exercise() = default;
 		/**
-		* @brief виртуальный метод
+		* @brief РІРёСЂС‚СѓР°Р»СЊРЅС‹Р№ РјРµС‚РѕРґ
 		*/
 		virtual void solve() = 0;
 	};

@@ -4,19 +4,19 @@
 #include "Generator.h"
 #include <iostream>
 using namespace std;
-// Заменить минимальный элемент каждой строки нулём
+// Р—Р°РјРµРЅРёС‚СЊ РјРёРЅРёРјР°Р»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚ РєР°Р¶РґРѕР№ СЃС‚СЂРѕРєРё РЅСѓР»С‘Рј
 namespace miit::algebra {
 	class Task1 : public Exercise
 	{
 	public:
 		/**
-		* @brief конструкор
-		* @param m - матрица
-		* @param g - генератор
+		* @brief РєРѕРЅСЃС‚СЂСѓРєРѕСЂ
+		* @param m - РјР°С‚СЂРёС†Р°
+		* @param g - РіРµРЅРµСЂР°С‚РѕСЂ
 		*/
 		Task1(Matrix* m, Generator* g);
 		/**
-		* @brief выполняет условия задания 1
+		* @brief РІС‹РїРѕР»РЅСЏРµС‚ СѓСЃР»РѕРІРёСЏ Р·Р°РґР°РЅРёСЏ 1
 		*/
 		void solve() override;
 	};

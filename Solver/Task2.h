@@ -4,19 +4,19 @@
 #include "Generator.h"
 #include <iostream>
 using namespace std;
-// Удалить столбцы, в которых есть положительный нечётный элемент
+// РЈРґР°Р»РёС‚СЊ СЃС‚РѕР»Р±С†С‹, РІ РєРѕС‚РѕСЂС‹С… РµСЃС‚СЊ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Р№ РЅРµС‡С‘С‚РЅС‹Р№ СЌР»РµРјРµРЅС‚
 namespace miit::algebra {
 	class Task2 : public Exercise
 	{
 	public:
 		/**
-		* @brief конструкор
-		* @param m - матрица
-		* @param g - генератор
+		* @brief РєРѕРЅСЃС‚СЂСѓРєРѕСЂ
+		* @param m - РјР°С‚СЂРёС†Р°
+		* @param g - РіРµРЅРµСЂР°С‚РѕСЂ
 		*/
 		Task2(Matrix* m, Generator* g);
 		/**
-		* @brief выполняет условия задания 2
+		* @brief РІС‹РїРѕР»РЅСЏРµС‚ СѓСЃР»РѕРІРёСЏ Р·Р°РґР°РЅРёСЏ 2
 		*/
 		void solve() override;
 	};
