@@ -33,20 +33,37 @@ namespace SolverTests
 			//Act
 			Matrix test_matrix(other);
 			//Assert
-			Assert::AreEqual(test_matrix.get_rows(), 2);
-			Assert::AreEqual(test_matrix.get_columns(), 2);
+			Assert::AreEqual(test_matrix.get_rows(), other.get_rows());
+			Assert::AreEqual(test_matrix.get_columns(), other.get_rows());
 			for (int i(0); i < test_matrix.get_rows(); i++) {
 				for (int j(0); j < test_matrix.get_columns(); j++) {
-					Assert::AreEqual(test_matrix.get_element(i, j), test_matrix.get_element(i, j));
+					Assert::AreEqual(test_matrix.get_element(i, j), other.get_element(i, j));
 				}
 			}
 		}
-		TEST_METHOD(Creating_using_move_operator) {
+		TEST_METHOD(Creating_using_assigment_operator) {
 			Matrix other(2, 2);
 			other.at(0, 0) = 1; other.at(0, 1) = 2;
 			other.at(1, 0) = 3; other.at(1, 1) = 4;
 			//Act
-			Matrix test_matrix(other);
+			Matrix test_matrix = other;
+			//Assert
+			Assert::AreEqual(test_matrix.get_rows(), other.get_rows());
+			Assert::AreEqual(test_matrix.get_columns(), other.get_columns());
+			for (int i(0); i < test_matrix.get_rows(); i++) {
+				for (int j(0); j < test_matrix.get_columns(); j++) {
+					Assert::AreEqual(test_matrix.get_element(i, j), other.get_element(i, j));
+				}
+			}
+		}
+		TEST_METHOD(Delete_column) {
+			Matrix test_matrix(2, 2);
+			test_matrix.at(0, 0) = 1; test_matrix.at(0, 1) = 2;
+			test_matrix.at(1, 0) = 2; test_matrix.at(1, 1) = 4;
+			//Act
+			test_matrix.delete_comlun(0);
+			//Assert
+			Assert::AreEqual(test_matrix.get_columns(), 1);
 		}
 	};
 }
