@@ -9,11 +9,11 @@ namespace miit::algebra {
 		/**
 		* @brief количество строк матрицы
 		*/
-		int rows;
+		size_t rows;
 		/**
 		* @brief количество столбцов матрицы
 		*/
-		int columns;
+		size_t columns;
 		/**
 		* @brief двумерный массив - тело матрицы
 		*/
@@ -28,16 +28,21 @@ namespace miit::algebra {
 		* @param n - количество строк
 		* @param m - количество столбцов
 		*/
-		Matrix(const int n, const int m);
+		Matrix(const size_t n, const size_t m);
 		/**
 		* @brief диструктор
 		*/
 		~Matrix();
 		/**
 		* @brief конструктор копирования
-		* @param a - матрица
+		* @param a - копируемая матрица
 		*/
-		Matrix(const Matrix& a);
+		Matrix(const Matrix& other);
+		/**
+		* @brief конструктор перемещения
+		* @param a - перемещаемая матрица
+		*/
+		Matrix(Matrix&& other) noexcept;
 		/**
 		* @brief оператор вывода
 		* @param os - поток вывода
@@ -59,6 +64,12 @@ namespace miit::algebra {
 		*/
 		Matrix& operator =(const Matrix& other);
 		/**
+		* @brief оператор перемещающегося пресваивания
+		* @param other - перемещаемая матрица
+		* @return ссылка на текущую матрицу
+		*/
+		Matrix& operator =(Matrix&& other);
+		/**
 		* @brief оператор ==
 		* @param m1 - матрица слева
 		* @param m2 - матрица справа
@@ -66,32 +77,33 @@ namespace miit::algebra {
 		*/
 		friend bool operator ==(const Matrix& m1, const Matrix& m2);
 		/**
+		* @brief переопределение оператора []
+		* @return строка матрицы
+		*/
+		int* operator[](const size_t i);
+		/**
+		* @brief переопределение оператора []
+		* @return строка матрицы в виде const
+		*/
+		const int* operator[](const size_t i) const;
+		/**
 		* @brief функция получения количеств строк
 		* @return количество строк
 		*/
-		int get_rows() const;
+		size_t get_rows() const;
 		/**
 		* @brief функция получения количеств столбцов
 		* @return количество столбцов
 		*/
-		int get_columns() const;
-		/**
-		* @brief функция получения элемента  матрицы
-		* @return элемент матрицы
-		*/
-		int get_element(const int i, const int j) const;
-		/**
-		* @brief функция получения ареса элемента матрицы
-		* @return адрес элемента матрицы
-		*/
-		int& at(const int i, const int j) const;
+		size_t get_columns() const;
 		/**
 		* @brief заполнение матрицы рандомными числами
 		*/
+		void fill();
 		void fill_random(Generator* g);
 		/**
 		* @brief удаляет столбец по номеру
 		*/
-		void delete_comlun(int col_index);
+		void delete_comlun(size_t col_index);
 	};
 }

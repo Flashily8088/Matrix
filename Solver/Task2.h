@@ -14,7 +14,7 @@ namespace miit::algebra {
 		* @param m - матрица
 		* @param g - генератор
 		*/
-		Task2(Matrix* m, Generator* g);
+		Task2(Matrix* m, const Generator* g);
 		/**
 		* @brief выполняет условия задания 2
 		*/
