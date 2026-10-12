@@ -5,43 +5,24 @@
 using namespace std;
 
 namespace miit::algebra {
-	Matrix::Matrix() : rows(0), columns(0), matrix(nullptr) {};
+	Matrix::Matrix() : rows(0), columns(0), matrix() {};
 
 	Matrix::Matrix(const size_t n, const size_t m) : rows(n), columns(m) {
-		matrix = new int* [rows];
-		for (size_t i(0); i < rows; i++) {
-			matrix[i] = new int[columns];
-		}
-	}
-	Matrix::~Matrix()
-	{
-		if (matrix != nullptr) {
-			for (size_t i(0); i < rows; i++) {
-				delete[] matrix[i];
-			}
-			delete[] matrix;
-		}
+		matrix.resize(rows, vector<int>(columns, 0));
 	}
 	Matrix::Matrix(const Matrix& other)
 	{
 		rows = other.rows;
 		columns = other.columns;
-		matrix = new int* [rows];
-		for (size_t i(0); i < rows; i++) {
-			matrix[i] = new int[columns];
-			for (size_t j(0); j < columns; j++) {
-				matrix[i][j] = other.matrix[i][j];
-			}
-		}
+		matrix = move(other.matrix);
 	}
 	Matrix::Matrix(Matrix&& other)noexcept
 	{
 		rows = other.rows;
 		columns = other.columns;
-		matrix = other.matrix;
+		matrix = move(other.matrix);
 		other.rows = 0;
 		other.columns = 0;
-		other.matrix = nullptr;
 	}
 	ostream& operator <<(ostream& os, const Matrix& a) {
 		for (size_t i(0); i < a.rows; i++) {
@@ -53,7 +34,7 @@ namespace miit::algebra {
 		return os;
 	}
 
-	istream& operator>>(istream& is, const Matrix& a)
+	istream& operator>>(istream& is, Matrix& a)
 	{
 		for (size_t i(0); i < a.rows; i++) {
 			for (size_t j(0); j < a.columns; j++) {
@@ -68,50 +49,30 @@ namespace miit::algebra {
 		if (this == &other) {
 			return *this;
 		}
-		if (matrix != nullptr) {
-			for (size_t i(0); i < rows; i++) {
-				delete[] matrix[i];
-			}
-			delete[] matrix;
-		}
 		rows = other.rows;
 		columns = other.columns;
-		matrix = new int* [rows];
-		for (size_t i(0); i < rows; i++) {
-			matrix[i] = new int[columns];
-			for (size_t j(0); j < columns; i++) {
-				matrix[i][j] = other.matrix[i][j];
-			}
-		}
+		matrix = move(other.matrix);
 		return *this;
 	}
 
-	Matrix& Matrix::operator=( Matrix&& other)
+	Matrix& Matrix::operator=( Matrix&& other) noexcept
 	{
 		if (other == *this) return *this;
-		if (matrix != nullptr) {
-			for (size_t i(0); i < rows; i++) {
-				delete[] matrix[i];
-			}
-			delete[] matrix;
-
-		}
 		rows = other.rows;
 		columns = other.columns;
-		matrix = other.matrix;
+		matrix = move(other.matrix);
 		other.rows = 0;
 		other.columns = 0;
-		other.matrix = nullptr;
 		return *this;
 	}
 
-	int* Matrix::operator[](const size_t i)
+	vector<int>& Matrix::operator[](const size_t i)
 	{
-		if (i <= rows) return matrix[i];
+		if (i <= sizeof(matrix)) return matrix[i];
 	}
 
-	const int* Matrix::operator[](const size_t i) const {
-		if (i <= rows) return matrix[i];
+	const vector<int>& Matrix::operator[](const size_t i) const {
+		if (i <= sizeof(matrix)) return matrix[i];
 	}
 
 	size_t Matrix::get_rows() const
@@ -124,50 +85,20 @@ namespace miit::algebra {
 		return columns;
 	}
 
-	void Matrix::fill()
+	void Matrix::fill(Generator* g)
 	{
 		for (size_t i(0); i < rows; i++) {
 			for (size_t j(0); j < columns; j++) {
-				cin >> matrix[i][j];
-			}
-		}
-	}
-
-	void Matrix::fill_random(Generator* g)
-	{
-		if (matrix == nullptr || g == nullptr) return;
-		for (int i(0); i < rows; i++) {
-			for (int j(0); j < columns; j++) {
 				matrix[i][j] = g->generate();
 			}
 		}
 	}
 
-	void Matrix::delete_comlun(size_t col_index)
+	void Matrix::delete_comlumn(const size_t col_index)
 	{
-		if (matrix == nullptr || col_index < 0 || col_index >= columns) return;
-		if (columns == 1) {
-			for (size_t i(0); i < rows; i++) {
-				delete[] matrix[i];
-			}
-			delete[] matrix;
-			matrix = nullptr;
-			columns = 0;
-			rows = 0;
-			return;
-		}
+		if (matrix.empty() || col_index < 0 || col_index >= columns) return;
 		for (size_t i(0); i < rows; i++) {
-			int* new_row = new int[columns - 1];
-			int new_j = 0;
-			for (size_t j(0); j < columns; j++) {
-				if (j == col_index) {
-					continue;
-				}
-				new_row[new_j] = matrix[i][j];
-				new_j++;
-			}
-			delete[] matrix[i];
-			matrix[i] = new_row;
+			matrix[i].erase(matrix[i].begin() + col_index);
 		}
 		columns--;
 	}
@@ -184,5 +115,9 @@ namespace miit::algebra {
 			return true;
 		}
 		return false;
+	}
+	bool operator!=(const Matrix& m1, const Matrix& m2)
+	{
+		return !(m1 == m2);
 	}
 }

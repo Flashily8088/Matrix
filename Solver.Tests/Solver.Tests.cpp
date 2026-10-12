@@ -1,9 +1,11 @@
 #include "CppUnitTest.h"
+#include <sstream>
 #include "../Solver/Matrix.h"
 #include "../Solver/RandomGenerator.h"
 #include "../Solver/ConstantGenerator.h"
 #include "../Solver/Task1.h"
 #include "../Solver/Task2.h"
+using namespace std;
 
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -64,7 +66,7 @@ namespace SolverTests
 			test_matrix[0][0] = 1; test_matrix[0][1] = 2;
 			test_matrix[1][0] = 3; test_matrix[1][1] = 4;
 			//Act
-			test_matrix.delete_comlun(0);
+			test_matrix.delete_comlumn(0);
 			//Assert
 			Assert::AreEqual(test_matrix.get_columns(), 1ULL);
 		}
@@ -157,7 +159,7 @@ namespace SolverTests
 			Matrix test_matrix(2, 2);
 			ConstantGenerator gen(42);
 			//Act
-			test_matrix.fill_random(&gen);
+			test_matrix.fill(&gen);
 			//Assert
 			for (size_t i(0); i < test_matrix.get_rows(); i++) {
 				for (size_t j(0); j < test_matrix.get_columns(); j++) {
@@ -166,12 +168,13 @@ namespace SolverTests
 			}
 		}
 		TEST_METHOD(Task_1) {
+			//Arrange
 			Matrix test_matrix(2, 2);
 			test_matrix[0][0] = 1; test_matrix[0][1] = 2;
 			test_matrix[1][0] = 3; test_matrix[1][1] = 4;
 			RandomGenerator MyGenerator(-10, 10);
 			//Act
-			Task1 task1(&test_matrix, &MyGenerator);
+			Task1 task1(test_matrix, MyGenerator);
 			task1.solve();
 			//Assert
 			Assert::AreEqual(test_matrix[0][0], 0);
@@ -180,18 +183,48 @@ namespace SolverTests
 			Assert::AreEqual(test_matrix[1][1], 4);
 		}
 		TEST_METHOD(Task_2) {
+			//Arrange
 			Matrix test_matrix(2, 2);
 			test_matrix[0][0] = 1; test_matrix[0][1] = 2;
 			test_matrix[1][0] = 3; test_matrix[1][1] = 4;
 			RandomGenerator MyGenerator(-10, 10);
 			//Act
-			Task2 task2(&test_matrix, &MyGenerator);
+			Task2 task2(test_matrix, MyGenerator);
 			task2.solve();
 			//Assert
 			Assert::AreEqual(test_matrix.get_rows(), 2ULL);
 			Assert::AreEqual(test_matrix.get_columns(), 1ULL);
 			Assert::AreEqual(test_matrix[0][0], 2);
 			Assert::AreEqual(test_matrix[1][0], 4);
+		}
+		TEST_METHOD(Test_Matrix_Output_Operator) {
+			//Arrange
+			Matrix test_matrix(2, 2);
+			test_matrix[0][0] = 1; test_matrix[0][1] = 2;
+			test_matrix[1][0] = 3; test_matrix[1][1] = 4;
+			stringstream output_stream;
+			//Act
+			output_stream << test_matrix;
+			string result = output_stream.str();
+			//Assert
+			Assert::IsFalse(result.empty());
+			Assert::IsTrue(result.find("1") != string::npos);
+			Assert::IsTrue(result.find("2") != string::npos);
+			Assert::IsTrue(result.find("3") != string::npos);
+			Assert::IsTrue(result.find("4") != string::npos);
+		}
+		TEST_METHOD(Test_Matrix_Input_Operator) {
+			//Arrange
+			Matrix test_matrix(2, 2);
+			string user_input = "1 2\n3 4";
+			stringstream input_stream(user_input);
+			//Act
+			input_stream >> test_matrix;
+			//Assert
+			Assert::AreEqual(test_matrix[0][0], 1);
+			Assert::AreEqual(test_matrix[0][1], 2);
+			Assert::AreEqual(test_matrix[1][0], 3);
+			Assert::AreEqual(test_matrix[1][1], 4);
 		}
 	};
 }

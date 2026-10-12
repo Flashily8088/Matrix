@@ -15,7 +15,7 @@ namespace miit::algebra {
         * @brief  онструктор генератора констант
         * @param value - число, которое всегда будет возвращать генератор
         */
-        ConstantGenerator(int value);
+        ConstantGenerator(const int value);
 
         /**
         * @brief ƒеструктор

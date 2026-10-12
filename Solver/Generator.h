@@ -9,13 +9,12 @@ namespace miit::algebra {
 		/**
 		* @brief
 		*/
-		virtual ~Generator() = 0;
+		virtual ~Generator() = default;
 		/**
 		* @brief
 		*/
 		virtual int generate() = 0;
 	};
-	inline Generator::~Generator() {}
 }
 
 

@@ -1,33 +1,53 @@
 #include <iostream>
 #include "../Solver/Matrix.h"
 #include "../Solver/RandomGenerator.h"
+#include "../Solver/IstreamGenerator.h"
 #include "../Solver/Task1.h"
 #include "../Solver/Task2.h"
 
 using namespace std;
 using namespace miit::algebra;
 
+enum class InputMod {
+	Manual = 1,
+	Random = 2
+};
+enum class TaskMod {
+	T1 = 1,
+	T2 = 2
+};
 /**
-* @brief меню выбора
+* @brief РјРµРЅСЋ РІС‹Р±РѕСЂР° РІРІРѕРґР°
 */
-void menu();
+void input_mod_menu();
 /**
-* @brief заполнение матрицы
-* @param choice - выбор пользователя
-* @param MyMatrix - матрица, которую нужно заполнять
-* @param gen - генератор
+* @brief РјРµРЅСЋ РІС‹Р±РѕСЂР° РІС‹РїРѕР»РЅРµРЅРёВ¤ Р·Р°РґР°РЅРёВ¤
 */
-void fill_matrix(int choice, Matrix& MyMatrix, Generator*& gen);
+void task_mod_menu();
 /**
-* @brief выполнение Задания 1 и Задания 2
-* @param rows - количество строк матрицы
-* @param columns - количество столбцов матрицы
-* @param choice - выбор пользователя
-* @param MyMatrix - матрица, которую нужно заполнять
-* @param gen - генератор
-* @param task1 - параметр выполнения Задания 1
-* @param task2 - параметр выполнения Задания 2
-* return 0 если прграмма выполнена успешно
+* @brief Р·Р°РїРѕР»РЅРµРЅРёРµ РјР°С‚СЂРёС†С‹
+* @param mod - РІС‹Р±РѕСЂ РїРѕР»СЊР·РѕРІР°С‚РµР»В¤
+* @param MyMatrix - РјР°С‚СЂРёС†Р°, РєРѕС‚РѕСЂСѓСЋ РЅСѓР¶РЅРѕ Р·Р°РїРѕР»РЅВ¤С‚СЊ
+* @param gen - РіРµРЅРµСЂР°С‚РѕСЂ
+*/
+Generator* fill_matrix(InputMod mod, Matrix& MyMatrix);
+/**
+* @brief РІС‹РїРѕР»РЅРµРЅРёРµ В«Р°РґР°РЅРёВ¤ 1 Рё В«Р°РґР°РЅРёВ¤ 2
+* @param mod - РІС‹Р±РѕСЂ РїРѕР»СЊР·РѕРІР°С‚РµР»В¤
+* @param MyMatrix - РјР°С‚СЂРёС†Р°, РєРѕС‚РѕСЂСѓСЋ РЅСѓР¶РЅРѕ Р·Р°РїРѕР»РЅВ¤С‚СЊ
+* @param gen - РіРµРЅРµСЂР°С‚РѕСЂ
+* return 0 РµСЃР»Рё РїСЂРіСЂР°РјРјР° РІС‹РїРѕР»РЅРµРЅР° СѓСЃРїРµС€РЅРѕ
+*/
+void do_task(TaskMod mod, Matrix& MyMatrix, Generator*& gen);
+/**
+* @brief РІС‹РїРѕР»РЅРµРЅРёРµ В«Р°РґР°РЅРёВ¤ 1 Рё В«Р°РґР°РЅРёВ¤ 2
+* @param rows - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє РјР°С‚СЂРёС†С‹
+* @param columns - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ РјР°С‚СЂРёС†С‹
+* @param user_input_mod - РІС‹Р±РѕСЂ РїРѕР»СЊР·РѕРІР°С‚РµР»В¤ СЃРїРѕСЃРѕР±Р° Р·Р°РїРѕР»РЅРµРЅРёВ¤ РјР°С‚СЂРёС†С‹
+* @param user_test_mod - РІС‹Р±РѕСЂ РїРѕР»СЊР·РѕРІР°С‚РµР»В¤ Р·Р°РґР°РЅРёВ¤ 
+* @param MyMatrix - РјР°С‚СЂРёС†Р°, РєРѕС‚РѕСЂСѓСЋ РЅСѓР¶РЅРѕ Р·Р°РїРѕР»РЅВ¤С‚СЊ
+* @param gen - РіРµРЅРµСЂР°С‚РѕСЂ
+* return 0 РµСЃР»Рё РїСЂРіСЂР°РјРјР° РІС‹РїРѕР»РЅРµРЅР° СѓСЃРїРµС€РЅРѕ
 */
 int main() {
 	size_t rows(0), columns(0);
@@ -36,50 +56,93 @@ int main() {
 	cout << "Enter columns: ";
 	cin >> columns;
 	Matrix MyMatrix(rows, columns);
-	menu();
-	int choice;
-	cout << "Your choice: ";
-	cin >> choice;
-	if (choice > 2 || choice < 1) {
-		cout << "Not available choice";
-		return 1;
-	}
-	Generator* gen = nullptr;
-	fill_matrix(choice, MyMatrix, gen);
+	int user_input_mod;
+	InputMod input_mod;
+	do {
+		input_mod_menu();
+		cout << "Your mod: ";
+		cin >> user_input_mod;
+		input_mod = static_cast<InputMod>(user_input_mod);
+		if (input_mod != InputMod::Random && input_mod != InputMod::Manual) {
+			cout << "Not available mod" << endl << endl;
+		}
+	} while (input_mod != InputMod::Random && input_mod != InputMod::Manual);
+	Generator* gen = fill_matrix(input_mod, MyMatrix);
 	if (gen == nullptr) {
 		gen = new RandomGenerator(1, 10);
 	}
+	cout << endl << "Your matrix:" << endl << MyMatrix;
 
-	cout << "Your matrix:" << endl << MyMatrix;
-	Task1 task1(&MyMatrix, gen);
-	task1.solve();
-	cout << "Task 1" << endl << MyMatrix;
-	Task2 task2(&MyMatrix, gen);
-	task2.solve();
-	cout << "Task 2" << endl << MyMatrix;
+	int user_task_mod;
+	TaskMod task_mod;
+	do {
+		task_mod_menu();
+		cout << "Yor mod: ";
+		cin >> user_task_mod;
+		task_mod = static_cast<TaskMod>(user_task_mod);
+		if (task_mod != TaskMod::T1 && task_mod != TaskMod::T2) {
+			cout << "Not available mod" << endl << endl;
+		}
+	} while (task_mod != TaskMod::T1 && task_mod != TaskMod::T2);
+	do_task(task_mod, MyMatrix, gen);
 	return 0;
 }
 
-void menu()
+void input_mod_menu()
 {
+	cout << endl << "/// Input menu ///" << endl;
 	cout << "1. Fill manually" << endl;
 	cout << "2. Fill random" << endl;
 }
 
-void fill_matrix(int choice, Matrix& MyMatrix, Generator*& gen)
+void task_mod_menu()
 {
-	if (choice == 1) {
-		cout << "Enter elements using space or Enter" << endl;
-		MyMatrix.fill();
+	cout << endl << "/// Task menu ///" << endl;
+	cout << "1. Do task 1." << endl;
+	cout << "2. Do task 2." << endl;
+}
+
+Generator* fill_matrix(InputMod mod, Matrix& MyMatrix)
+{
+	Generator* local_gen = nullptr;
+	switch (mod) {
+	case InputMod::Manual:
+	{
+			cout << "Enter elements using space or Enter" << endl;
+			local_gen = new IstreamGenerator(cin);
+			MyMatrix.fill(local_gen);
+			break;
 	}
-	else if (choice == 2) {
-		cout <<endl << "...Mod of generating..." << endl;
-		int max(0), min(0);
-		cout << "The minimum: ";
-		cin >> min;
-		cout << "The maximum: ";
-		cin >> max;
-		gen = new RandomGenerator(min, max);
-		MyMatrix.fill_random(gen);
+	case InputMod::Random:
+	{
+			cout << endl << "...Mod of generating..." << endl;
+			int max(0), min(0);
+			cout << "The minimum: ";
+			cin >> min;
+			cout << "The maximum: ";
+			cin >> max;
+			local_gen = new RandomGenerator(min, max);
+			MyMatrix.fill(local_gen);
+			break;
+	}
+	return local_gen;
+	}
+}
+
+void do_task(TaskMod mod, Matrix& MyMatrix, Generator*& gen)
+{
+	switch (mod) {
+	case (TaskMod::T1): {
+		Task1 task1(MyMatrix, *gen);
+		task1.solve();
+		cout << endl << "Task 1" << endl << MyMatrix;
+		break;
+	}
+	case (TaskMod::T2): {
+		Task2 task2(MyMatrix, *gen);
+		task2.solve();
+		cout << endl << "Task 2" << endl << MyMatrix;
+		break;
+	}
 	}
 }

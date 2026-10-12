@@ -8,18 +8,18 @@ namespace miit::algebra {
 		/**
 		* @brief матрица
 		*/
-		Matrix* matrix;
+		Matrix& matrix;
 		/**
 		* @brief генератор
 		*/
-		const Generator* generator;
+		const Generator& generator;
 	public:
 		/**
 		* @brief конструкор
 		* @param m - матрица
 		* @param g - генератор
 		*/
-		Exercise(Matrix* m, const Generator* g) : matrix(m), generator(g) {};
+		Exercise(Matrix& m, const Generator& g) : matrix(m), generator(g) {};
 		/**
 		* @brief диструктор
 		*/

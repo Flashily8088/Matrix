@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <vector>
 #include "Generator.h"
 using namespace std;
 namespace miit::algebra {
@@ -17,7 +18,7 @@ namespace miit::algebra {
 		/**
 		* @brief двумерный массив - тело матрицы
 		*/
-		int** matrix;
+		vector<vector <int>> matrix;
 	public:
 		/**
 		* @brief конструктор по умолчанию
@@ -32,7 +33,7 @@ namespace miit::algebra {
 		/**
 		* @brief диструктор
 		*/
-		~Matrix();
+		~Matrix() = default;
 		/**
 		* @brief конструктор копирования
 		* @param a - копируемая матрица
@@ -56,7 +57,7 @@ namespace miit::algebra {
 		* @param a - матрица
 		* @return поток ввода
 		*/
-		friend istream& operator >>(istream& is, const Matrix& a);
+		friend istream& operator >>(istream& is, Matrix& a);
 		/**
 		* @brief оператор =
 		* @param other - матрица
@@ -68,7 +69,7 @@ namespace miit::algebra {
 		* @param other - перемещаемая матрица
 		* @return ссылка на текущую матрицу
 		*/
-		Matrix& operator =(Matrix&& other);
+		Matrix& operator =(Matrix&& other) noexcept;
 		/**
 		* @brief оператор ==
 		* @param m1 - матрица слева
@@ -77,15 +78,22 @@ namespace miit::algebra {
 		*/
 		friend bool operator ==(const Matrix& m1, const Matrix& m2);
 		/**
+		* @brief оператор !=
+		* @param m1 - матрица слева
+		* @param m2 - матрица справа
+		* @return true, если матрицы неравны
+		*/
+		friend bool operator !=(const Matrix& m1, const Matrix& m2);
+		/**
 		* @brief переопределение оператора []
 		* @return строка матрицы
 		*/
-		int* operator[](const size_t i);
+		vector<int>& operator[](const size_t i);
 		/**
 		* @brief переопределение оператора []
 		* @return строка матрицы в виде const
 		*/
-		const int* operator[](const size_t i) const;
+		const vector<int>& operator[](const size_t i) const;
 		/**
 		* @brief функция получения количеств строк
 		* @return количество строк
@@ -99,11 +107,10 @@ namespace miit::algebra {
 		/**
 		* @brief заполнение матрицы рандомными числами
 		*/
-		void fill();
-		void fill_random(Generator* g);
+		void fill(Generator* g);
 		/**
 		* @brief удаляет столбец по номеру
 		*/
-		void delete_comlun(size_t col_index);
+		void delete_comlumn(const size_t col_index);
 	};
 }
