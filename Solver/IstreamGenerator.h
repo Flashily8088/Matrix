@@ -19,7 +19,7 @@ namespace miit::algebra {
 		/**
 		* @brief
 		*/
-		int generate() override;
+		int generate() const override;
 	};
 }
 

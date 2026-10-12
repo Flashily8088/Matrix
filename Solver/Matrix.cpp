@@ -68,7 +68,7 @@ namespace miit::algebra {
 
 	vector<int>& Matrix::operator[](const size_t i)
 	{
-		if (i <= sizeof(matrix)) return matrix[i];
+		if (i <= matrix.size()) return matrix[i];
 	}
 
 	const vector<int>& Matrix::operator[](const size_t i) const {
@@ -85,7 +85,7 @@ namespace miit::algebra {
 		return columns;
 	}
 
-	void Matrix::fill(Generator* g)
+	void Matrix::fill(const Generator* g)
 	{
 		for (size_t i(0); i < rows; i++) {
 			for (size_t j(0); j < columns; j++) {

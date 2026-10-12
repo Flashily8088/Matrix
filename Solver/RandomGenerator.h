@@ -10,8 +10,8 @@ namespace miit::algebra
 	class RandomGenerator : public Generator
 	{
 	private:
-		uniform_int_distribution<int> distribution;
-		mt19937 generator;
+		mutable uniform_int_distribution<int> distribution;
+		mutable mt19937 generator;
 	public:
 		/**
 		* @brief
@@ -22,7 +22,7 @@ namespace miit::algebra
 		/**
 		* @brief
 		*/
-		int generate() override;
+		int generate() const override;
 	};
 }
 

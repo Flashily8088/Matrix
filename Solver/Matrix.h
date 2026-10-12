@@ -107,7 +107,7 @@ namespace miit::algebra {
 		/**
 		* @brief заполнение матрицы рандомными числами
 		*/
-		void fill(Generator* g);
+		void fill(const Generator* g);
 		/**
 		* @brief удаляет столбец по номеру
 		*/
