@@ -12,14 +12,14 @@ namespace miit::algebra {
 		/**
 		* @brief генератор
 		*/
-		const Generator& generator;
+		Generator& generator;
 	public:
 		/**
 		* @brief конструкор
 		* @param m - матрица
 		* @param g - генератор
 		*/
-		Exercise(Matrix& m, const Generator& g) : matrix(m), generator(g) {};
+		Exercise(Matrix& m, const Generator& g) : matrix(m), generator(const_cast <Generator&> (g)) {};
 		/**
 		* @brief диструктор
 		*/

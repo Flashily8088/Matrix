@@ -13,7 +13,9 @@ namespace miit::algebra {
 		/**
 		* @brief
 		*/
-		virtual int generate() const = 0;
+		virtual int generate() const {
+			return 0;
+		}
 	};
 }
 

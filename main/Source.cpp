@@ -30,15 +30,7 @@ void task_mod_menu();
 * @param MyMatrix - матрица, которую нужно заполн¤ть
 * @param gen - генератор
 */
-Generator* fill_matrix(InputMod mod, Matrix& MyMatrix);
-/**
-* @brief выполнение «адани¤ 1 и «адани¤ 2
-* @param mod - выбор пользовател¤
-* @param MyMatrix - матрица, которую нужно заполн¤ть
-* @param gen - генератор
-* return 0 если прграмма выполнена успешно
-*/
-void do_task(TaskMod mod, Matrix& MyMatrix, Generator*& gen);
+void do_task(const TaskMod mod, Matrix& MyMatrix, const Generator& gen);
 /**
 * @brief выполнение «адани¤ 1 и «адани¤ 2
 * @param rows - количество строк матрицы
@@ -50,11 +42,15 @@ void do_task(TaskMod mod, Matrix& MyMatrix, Generator*& gen);
 * return 0 если прграмма выполнена успешно
 */
 int main() {
-	size_t rows(0), columns(0);
-	cout << "Enter raws: ";
-	cin >> rows;
-	cout << "Enter columns: ";
-	cin >> columns;
+	int rows(0), columns(0);
+	do {
+		cout << "Enter rows: ";
+		cin >> rows;
+	} while (rows <= 0);
+	do {
+		cout << "Enter columns: ";
+		cin >> columns;
+	} while (columns <= 0);
 	Matrix MyMatrix(rows, columns);
 	int user_input_mod;
 	InputMod input_mod;
@@ -67,25 +63,54 @@ int main() {
 			cout << "Not available mod" << endl << endl;
 		}
 	} while (input_mod != InputMod::Random && input_mod != InputMod::Manual);
-	Generator* gen = fill_matrix(input_mod, MyMatrix);
-	if (gen == nullptr) {
-		gen = new RandomGenerator(1, 10);
+	switch (input_mod) {
+	case InputMod::Manual:
+	{
+		cout << "Enter elements using space or Enter" << endl;
+		IstreamGenerator local_gen(cin);
+		MyMatrix.fill(&local_gen);
+		cout << endl << "Your matrix:" << endl << MyMatrix;
+		int user_task_mod;
+		TaskMod task_mod;
+		do {
+			task_mod_menu();
+			cout << "Your mod: ";
+			cin >> user_task_mod;
+			task_mod = static_cast<TaskMod>(user_task_mod);
+			if (task_mod != TaskMod::T1 && task_mod != TaskMod::T2) {
+				cout << "Not available mod" << endl << endl;
+			}
+		} while (task_mod != TaskMod::T1 && task_mod != TaskMod::T2);
+		do_task(task_mod, MyMatrix, local_gen);
+		break;
 	}
-	cout << endl << "Your matrix:" << endl << MyMatrix;
-
-	int user_task_mod;
-	TaskMod task_mod;
-	do {
-		task_mod_menu();
-		cout << "Yor mod: ";
-		cin >> user_task_mod;
-		task_mod = static_cast<TaskMod>(user_task_mod);
-		if (task_mod != TaskMod::T1 && task_mod != TaskMod::T2) {
-			cout << "Not available mod" << endl << endl;
-		}
-	} while (task_mod != TaskMod::T1 && task_mod != TaskMod::T2);
-	do_task(task_mod, MyMatrix, gen);
+	case InputMod::Random:
+	{
+		cout << endl << "...Mod of generating..." << endl;
+		int max(0), min(0);
+		cout << "The minimum: ";
+		cin >> min;
+		cout << "The maximum: ";
+		cin >> max;
+		RandomGenerator local_gen(min, max);
+		MyMatrix.fill(&local_gen);
+		cout << endl << "Your matrix:" << endl << MyMatrix;
+		int user_task_mod;
+		TaskMod task_mod;
+		do {
+			task_mod_menu();
+			cout << "Your mod: ";
+			cin >> user_task_mod;
+			task_mod = static_cast<TaskMod>(user_task_mod);
+			if (task_mod != TaskMod::T1 && task_mod != TaskMod::T2) {
+				cout << "Not available mod" << endl << endl;
+			}
+		} while (task_mod != TaskMod::T1 && task_mod != TaskMod::T2);
+		do_task(task_mod, MyMatrix, local_gen);
+		break;
+	}
 	return 0;
+	}
 }
 
 void input_mod_menu()
@@ -102,44 +127,17 @@ void task_mod_menu()
 	cout << "2. Do task 2." << endl;
 }
 
-Generator* fill_matrix(InputMod mod, Matrix& MyMatrix)
-{
-	Generator* local_gen = nullptr;
-	switch (mod) {
-	case InputMod::Manual:
-	{
-			cout << "Enter elements using space or Enter" << endl;
-			local_gen = new IstreamGenerator(cin);
-			MyMatrix.fill(local_gen);
-			break;
-	}
-	case InputMod::Random:
-	{
-			cout << endl << "...Mod of generating..." << endl;
-			int max(0), min(0);
-			cout << "The minimum: ";
-			cin >> min;
-			cout << "The maximum: ";
-			cin >> max;
-			local_gen = new RandomGenerator(min, max);
-			MyMatrix.fill(local_gen);
-			break;
-	}
-	return local_gen;
-	}
-}
-
-void do_task(TaskMod mod, Matrix& MyMatrix, Generator*& gen)
+void do_task(const TaskMod mod, Matrix& MyMatrix, const Generator& gen)
 {
 	switch (mod) {
 	case (TaskMod::T1): {
-		Task1 task1(MyMatrix, *gen);
+		Task1 task1(MyMatrix, gen);
 		task1.solve();
 		cout << endl << "Task 1" << endl << MyMatrix;
 		break;
 	}
 	case (TaskMod::T2): {
-		Task2 task2(MyMatrix, *gen);
+		Task2 task2(MyMatrix, gen);
 		task2.solve();
 		cout << endl << "Task 2" << endl << MyMatrix;
 		break;
