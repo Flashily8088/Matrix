@@ -6,6 +6,7 @@ namespace miit::algebra {
 	class Generator
 	{
 	public:
+		Generator() = default;
 		/**
 		* @brief
 		*/

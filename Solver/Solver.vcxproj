@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConstantGenerator.cpp" />
+    <ClCompile Include="Exercise.cpp" />
     <ClCompile Include="IstreamGenerator.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="RandomGenerator.cpp" />

@@ -19,7 +19,7 @@ namespace miit::algebra {
 		* @param m - матрица
 		* @param g - генератор
 		*/
-		Exercise(Matrix& m, const Generator& g) : matrix(m), generator(const_cast <Generator&> (g)) {};
+		Exercise(Matrix& m, const Generator& g);
 		/**
 		* @brief диструктор
 		*/

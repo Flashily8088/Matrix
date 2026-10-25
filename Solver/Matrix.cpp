@@ -7,14 +7,13 @@ using namespace std;
 namespace miit::algebra {
 	Matrix::Matrix() : rows(0), columns(0), matrix() {};
 
-	Matrix::Matrix(const size_t n, const size_t m) : rows(n), columns(m) {
-		matrix.resize(rows, vector<int>(columns, 0));
-	}
+	Matrix::Matrix(const size_t n, const size_t m) : rows(n), columns(m), matrix(n, vector<int>(m, 0))
+	{}
 	Matrix::Matrix(const Matrix& other)
 	{
 		rows = other.rows;
 		columns = other.columns;
-		matrix = move(other.matrix);
+		matrix = other.matrix;
 	}
 	Matrix::Matrix(Matrix&& other)noexcept
 	{
@@ -51,7 +50,7 @@ namespace miit::algebra {
 		}
 		rows = other.rows;
 		columns = other.columns;
-		matrix = move(other.matrix);
+		matrix = other.matrix;
 		return *this;
 	}
 
@@ -69,10 +68,12 @@ namespace miit::algebra {
 	vector<int>& Matrix::operator[](const size_t i)
 	{
 		if (i <= matrix.size()) return matrix[i];
+		else cout << "Unavailable index" << endl;
 	}
 
 	const vector<int>& Matrix::operator[](const size_t i) const {
 		if (i <= sizeof(matrix)) return matrix[i];
+		else cout << "Unavalaible index" << endl;
 	}
 
 	size_t Matrix::get_rows() const
