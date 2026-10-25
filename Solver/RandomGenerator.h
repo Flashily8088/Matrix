@@ -14,13 +14,13 @@ namespace miit::algebra
 		mutable mt19937 generator;
 	public:
 		/**
-		* @brief
-		* @param min
-		* @param max
+		* @brief конструктор
+		* @param min - минимальное значаение диапозона
+		* @param max - максимальное значение диапозона
 		*/
 		RandomGenerator(const int min, const int max);
 		/**
-		* @brief
+		* @brief функция генерации случайного числа из диапозона
 		*/
 		int generate() const override;
 	};

@@ -12,12 +12,12 @@ namespace miit::algebra {
 		istream& in;
 	public:
 		/**
-		* @brief
-		* @param in
+		* @brief Конструктор
+		* @param in - поток ввода
 		*/
 		IstreamGenerator(istream& in = cin);
 		/**
-		* @brief
+		* @brief Функция генерации
 		*/
 		int generate() const override;
 	};

@@ -21,23 +21,23 @@ enum class TaskMod {
 */
 void input_mod_menu();
 /**
-* @brief меню выбора выполнени¤ задани¤
+* @brief меню выбора выполнения задания
 */
 void task_mod_menu();
 /**
 * @brief заполнение матрицы
-* @param mod - выбор пользовател¤
+* @param mod - выбор пользователя
 * @param MyMatrix - матрица, которую нужно заполн¤ть
 * @param gen - генератор
 */
 void do_task(const TaskMod mod, Matrix& MyMatrix, const Generator& gen);
 /**
-* @brief выполнение «адани¤ 1 и «адани¤ 2
+* @brief выполнение "Задания 1" и "Задания 2"
 * @param rows - количество строк матрицы
 * @param columns - количество столбцов матрицы
-* @param user_input_mod - выбор пользовател¤ способа заполнени¤ матрицы
-* @param user_test_mod - выбор пользовател¤ задани¤ 
-* @param MyMatrix - матрица, которую нужно заполн¤ть
+* @param user_input_mod - выбор пользователя способа заполнения матрицы
+* @param user_test_mod - выбор пользователя задания 
+* @param MyMatrix - матрица, которую нужно заполнить
 * @param gen - генератор
 * return 0 если прграмма выполнена успешно
 */
