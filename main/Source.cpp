@@ -110,7 +110,7 @@ int main() {
 	}
 	default: {
 		cout << "Error: Not available mod" << endl;
-		return 0;
+		return 1;
 	}
 	}
 return 0;
@@ -119,9 +119,9 @@ return 0;
 void input_mod_menu()
 {
 	cout << endl << "/// Input menu ///" << endl;
-	cout << "1. Fill manually" << endl;
-	cout << "2. Fill random" << endl;
-	cout << "3. Fill using constant" << endl;
+	cout << static_cast<int>(InputMod::Manual) << " Fill manually" << endl;
+	cout << static_cast<int>(InputMod::Random) <<" Fill random" << endl;
+	cout << static_cast<int>(InputMod::Const) << " Fill using constant" << endl;
 }
 
 void task_mod_menu()
