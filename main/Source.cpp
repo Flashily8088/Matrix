@@ -127,8 +127,8 @@ void input_mod_menu()
 void task_mod_menu()
 {
 	cout << "/// Task menu ///" << endl;
-	cout << "1. Do task 1." << endl;
-	cout << "2. Do task 2." << endl;
+	cout << static_cast<int>(TaskMod::T1) << " Do task 1." << endl;
+	cout << static_cast<int>(TaskMod::T2) << " Do task 2." << endl;
 }
 
 void do_task(const TaskMod mod, Matrix& MyMatrix, const Generator& gen)
