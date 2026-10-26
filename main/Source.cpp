@@ -108,6 +108,10 @@ int main() {
 		do_task(task_mod, MyMatrix, local_gen);
 		break;
 	}
+	default: {
+		cout << "Error: Not available mod" << endl;
+		return 0;
+	}
 	}
 return 0;
 }
