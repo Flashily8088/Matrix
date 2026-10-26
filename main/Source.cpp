@@ -76,12 +76,13 @@ int main() {
 		cout << "Not available mod" << endl << endl;
 		return 0;
 	}
+	Generator* gen = nullptr;
 	switch (input_mod) {
 	case InputMod::Manual:
 	{
+		cin.ignore(10000, '\n');
 		cout << "Enter elements using space or Enter" << endl;
-		IstreamGenerator local_gen(cin);
-		do_task(task_mod, MyMatrix, local_gen);
+		gen = new IstreamGenerator(cin);
 		break;
 	}
 	case InputMod::Random:
@@ -92,12 +93,15 @@ int main() {
 		cin >> min;
 		cout << "The maximum: ";
 		cin >> max;
-		RandomGenerator local_gen(min, max);
-		do_task(task_mod, MyMatrix, local_gen);
+		gen = new RandomGenerator(min, max);
 		break;
 	}
-	return 0;
-	}
+}
+if (gen != nullptr) {
+	do_task(task_mod, MyMatrix, *gen);
+}
+delete gen;
+return 0;
 }
 
 void input_mod_menu()
