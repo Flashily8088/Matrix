@@ -2,6 +2,7 @@
 #include "../Solver/Matrix.h"
 #include "../Solver/RandomGenerator.h"
 #include "../Solver/IstreamGenerator.h"
+#include "../Solver/ConstantGenerator.h"
 #include "../Solver/Task1.h"
 #include "../Solver/Task2.h"
 
@@ -10,7 +11,8 @@ using namespace miit::algebra;
 
 enum class InputMod {
 	Manual = 1,
-	Random = 2
+	Random = 2,
+	Const = 3
 };
 enum class TaskMod {
 	T1 = 1,
@@ -31,6 +33,11 @@ void task_mod_menu();
 * @param gen - генератор
 */
 void do_task(const TaskMod mod, Matrix& MyMatrix, const Generator& gen);
+/**
+* @brief функция проверки корректного ввода
+* return false если условие не выполнено
+*/
+bool check(int param);
 /**
 * @brief выполнение "Задания 1" и "Задания 2"
 * @param rows - количество строк матрицы
@@ -55,16 +62,10 @@ int main() {
 	int rows(0), columns(0);
 	cout << endl << "Enter rows: ";
 	cin >> rows;
-	if (rows <= 0) {
-		cout << "Unavailable index";
-		return 0;
-	}
+	if(!(check(rows))) return 0;
 	cout << "Enter columns: ";
 	cin >> columns;
-	if (columns <= 0) {
-		cout << "Unavailable index";
-		return 0;
-	}
+	if (!(check(columns))) return 0;
 	Matrix MyMatrix(rows, columns);
 	int user_input_mod;
 	InputMod input_mod;
@@ -72,17 +73,17 @@ int main() {
 	cout << "Your mod: ";
 	cin >> user_input_mod;
 	input_mod = static_cast<InputMod>(user_input_mod);
-	if (input_mod != InputMod::Random && input_mod != InputMod::Manual) {
+	if (input_mod != InputMod::Random && input_mod != InputMod::Manual && input_mod != InputMod::Const) {
 		cout << "Not available mod" << endl << endl;
 		return 0;
 	}
-	Generator* gen = nullptr;
 	switch (input_mod) {
 	case InputMod::Manual:
 	{
 		cin.ignore(10000, '\n');
 		cout << "Enter elements using space or Enter" << endl;
-		gen = new IstreamGenerator(cin);
+		IstreamGenerator local_gen(cin);
+		do_task(task_mod, MyMatrix, local_gen);
 		break;
 	}
 	case InputMod::Random:
@@ -93,14 +94,21 @@ int main() {
 		cin >> min;
 		cout << "The maximum: ";
 		cin >> max;
-		gen = new RandomGenerator(min, max);
+		RandomGenerator local_gen(min, max);
+		do_task(task_mod, MyMatrix, local_gen);
 		break;
 	}
-}
-if (gen != nullptr) {
-	do_task(task_mod, MyMatrix, *gen);
-}
-delete gen;
+	case InputMod::Const:
+	{
+		int constant(0);
+		cin.ignore(10000, '\n');
+		cout << "Enter constant: " << endl;
+		cin >> constant;
+		ConstantGenerator local_gen(constant);
+		do_task(task_mod, MyMatrix, local_gen);
+		break;
+	}
+	}
 return 0;
 }
 
@@ -109,6 +117,7 @@ void input_mod_menu()
 	cout << endl << "/// Input menu ///" << endl;
 	cout << "1. Fill manually" << endl;
 	cout << "2. Fill random" << endl;
+	cout << "3. Fill using constant" << endl;
 }
 
 void task_mod_menu()
@@ -135,5 +144,13 @@ void do_task(const TaskMod mod, Matrix& MyMatrix, const Generator& gen)
 		cout << endl << "Task 2" << endl << MyMatrix;
 		break;
 	}
+	}
+}
+
+bool check(int param)
+{
+	if (param <= 0) {
+		cout << "Unavailable index";
+		return false;
 	}
 }

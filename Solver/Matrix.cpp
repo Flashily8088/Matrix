@@ -72,7 +72,7 @@ namespace miit::algebra {
 	}
 
 	const vector<int>& Matrix::operator[](const size_t i) const {
-		if (i <= sizeof(matrix)) return matrix[i];
+		if (i <= matrix.size()) return matrix[i];
 		else cout << "Unavalaible index" << endl;
 	}
 
