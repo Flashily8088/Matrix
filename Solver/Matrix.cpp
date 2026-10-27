@@ -86,7 +86,7 @@ namespace miit::algebra {
 		return columns;
 	}
 
-	void Matrix::fill(const Generator* g)
+	void Matrix::fill(const Generator& g)
 	{
 		for (size_t i(0); i < rows; i++) {
 			for (size_t j(0); j < columns; j++) {
